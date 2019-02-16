@@ -1,25 +1,24 @@
-import axios from 'axios';
-import GeoGetter from '../src/index';
+import GeoInfo from '../src/01/index';
 import testResponses from './responses.json';
 
-axios.get = ip => Promise.resolve({ data: testResponses[ip] });
+const testAxios = ip => Promise.resolve({ data: testResponses[`http://ip-api.com/json/${ip}`] });
 
 describe('Get geo', () => {
-  const geoGetter = new GeoGetter();
+  const geoInfo = new GeoInfo(testAxios);
   it('no ip', async () => {
-    const data = await geoGetter.get();
+    const data = await geoInfo.getInfoForIp();
 
     expect(data).toEqual(testResponses['http://ip-api.com/json/']);
   });
 
   it('right ip', async () => {
-    const data = await geoGetter.get('24.28.0.3');
+    const data = await geoInfo.getInfoForIp('24.28.0.3');
 
     expect(data).toEqual(testResponses['http://ip-api.com/json/24.28.0.3']);
   });
 
   it('wrong ip', async () => {
-    const data = await geoGetter.get('asd');
+    const data = await geoInfo.getInfoForIp('asd');
 
     expect(data).toEqual(testResponses['http://ip-api.com/json/asd']);
   });

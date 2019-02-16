@@ -1,8 +1,8 @@
 #!/usr/bin/env node
-import GeoGetter from '../index';
+import GeoInfo from '../index';
 
 const [, , ip] = process.argv;
-const geoGetter = new GeoGetter();
+const geoInfo = new GeoInfo();
 
-geoGetter.get(ip)
+geoInfo.getInfoForIp(ip)
   .then(data => Object.entries(data).forEach(([key, value]) => console.log(`${key} - ${value}`)));
