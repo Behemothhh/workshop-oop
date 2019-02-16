@@ -1,19 +1,13 @@
-import Source from './source';
+import requestBuilder from './requestBuilder';
+
 class GeoGetter {
-  constructor(source) {
-    if (source instanceof Source) {
-      this.source = source;
-    } else {
-      this.source = new Source('http://ip-api.com/json/', 'data');
-    }
+  constructor(host) {
+    this.getMeta = requestBuilder(host);
   }
 
-  setSource(source) {
-    this.source = source;
-  }
-
-  getGeo(ip = '') {
-    return this.source.get(ip);
+  async get(ip = '') {
+    const { data } = await this.getMeta(ip);
+    return data;
   }
 }
 

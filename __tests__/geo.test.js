@@ -1,31 +1,26 @@
+import axios from 'axios';
 import GeoGetter from '../src/index';
-import TestSource from '../src/test/TestSource';
+import testResponses from './responses.json';
+
+axios.get = ip => Promise.resolve({ data: testResponses[ip] });
 
 describe('Get geo', () => {
-  it('should return object', () => {
-    const answer = {
-      query: '95.108.225.214',
-      status: 'success',
-      country: 'Russia',
-      countryCode: 'RU',
-      region: 'MOW',
-      regionName: 'Moscow',
-      city: 'Moscow',
-      district: '',
-      zip: '',
-      lat: 55.7558,
-      lon: 37.6173,
-      timezone: 'Europe/Moscow',
-      isp: 'Yandex LLC',
-      org: 'Yandex',
-      as: 'AS13238 YANDEX LLC',
-      mobile: false,
-      proxy: false,
-    };
-    const testSource = new TestSource();
-    const geoGetter = new GeoGetter();
-    geoGetter.setSource(testSource);
+  const geoGetter = new GeoGetter();
+  it('no ip', async () => {
+    const data = await geoGetter.get();
 
-    return geoGetter.getGeo().then(data => expect(data).toEqual(answer));
+    expect(data).toEqual(testResponses['http://ip-api.com/json/']);
+  });
+
+  it('right ip', async () => {
+    const data = await geoGetter.get('24.28.0.3');
+
+    expect(data).toEqual(testResponses['http://ip-api.com/json/24.28.0.3']);
+  });
+
+  it('wrong ip', async () => {
+    const data = await geoGetter.get('asd');
+
+    expect(data).toEqual(testResponses['http://ip-api.com/json/asd']);
   });
 });
