@@ -21,3 +21,10 @@ $ make install
 ```sh
 $ make test
 ```
+
+## Usage
+
+const geoGetter = new geoGetter();
+geoGetter
+  .getGeo(your_ip)
+  .then(doStuff);
