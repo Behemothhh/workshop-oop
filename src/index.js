@@ -2,11 +2,11 @@ import requestBuilder from './requestBuilder';
 
 class GeoGetter {
   constructor(host) {
-    this.getMeta = requestBuilder(host);
+    this.get = requestBuilder(host);
   }
 
-  async get(ip = '') {
-    const { data } = await this.getMeta(ip);
+  async getMeta(ip = '') {
+    const { data } = await this.get(ip);
     return data;
   }
 }
