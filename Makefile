@@ -1,7 +1,7 @@
 install: install-deps
 
 run:
-	npx babel-node -- 'src/bin/hexlet.js'
+	npx babel-node -- 'src/02/index.js'
 
 install-deps:
 	npm install
